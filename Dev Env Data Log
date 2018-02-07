@@ -1,0 +1,9 @@
+D, [2018-02-07T06:55:35.483657 #6180] DEBUG -- :   User Load (0.7ms)  SELECT "users".* FROM "users"
+Username: emikaijuin, Password: password
+Username: notemikaijuin, Password: notpassword
+Username: pq, Password: pq
+Username: p, Password: p
+Username: q, Password: Q
+Username: eijuin, Password: eijuin
+Username: hey, Password: hey
+Username: hi, Password: hi

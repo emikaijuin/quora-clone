@@ -1,0 +1,13 @@
+<a href="/user/signup">Sign Up</a>
+<a href="/user/login">Log In</a>
+
+<p>Question:  <%= @question.question %> </p>
+<p>Description: <%= @question.description %></p>
+
+<a href="/questions/all">View all questions</a>
+
+<% if cookies[:username] != (nil || "") %>
+<form action="/questions/<%= @question.id %>" method="POST">
+<button name="_method" type="hidden" value="delete">Delete Question</button>
+</form>
+<% end %>
