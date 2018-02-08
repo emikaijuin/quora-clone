@@ -7,6 +7,7 @@ gem "pg", "~> 0.19.0"
 gem "activerecord"
 gem 'bcrypt', '~> 3.1.7'
 gem 'byebug'
+gem 'heroku'
 
 group :development do
     gem "shotgun"
