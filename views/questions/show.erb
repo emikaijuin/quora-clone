@@ -1,13 +1,37 @@
+<h4><%= cookies[:username] == (nil) ? nil : ("Welcome back, " + cookies[:username] + "!")%></h4>
+
+<% if cookies[:username] != (nil) %>
+<a href="/user/logout">Log Out</a> 
+<% else %>
 <a href="/user/signup">Sign Up</a>
 <a href="/user/login">Log In</a>
+<% end %>
+<hr>
+<br><br>
 
-<p>Question:  <%= @question.question %> </p>
-<p>Description: <%= @question.description %></p>
+<p><strong>Question: <%=@question.question%></strong></p>
+<% if @question.description != "" || nil %> <p><em>Description: <%=@question.description%></em></p> <% end %>
+<p>Submitted by: <%=User.find_by(id: @question.user_id).username%></p>
+<br><br>
+
+<p><strong>Answers: </strong></p>
+<% if Answer.find_by(question_id: @question.id != nil %>
+    <% Answer.find_by(question_id: @question_id).each_with_index do |answer, index| %>
+        Answer <%=index%>: <%= answer.answer %> (Votes: <%=answer.votes%>)
+    <% end %>
+<% end %>
+
+
+
+<% if User.find_by(username: cookies[:username]).id == @question.user_id %>
+    <a href="/questions/<%= @question.id %>/edit"><button>Edit Question</button></a>
+    <form action="/questions/<%= @question.id %>" method="POST">
+    <button name="_method" type="hidden" value="delete">Delete Question</button>
+    </form>
+<% end %>
+<br><br>
+<a href="/questions/<%=@question.id%>/answer/new"><button>Add a response!</button></a>
+<hr>
+
 
 <a href="/questions/all">View all questions</a>
-
-<% if cookies[:username] != (nil || "") %>
-<form action="/questions/<%= @question.id %>" method="POST">
-<button name="_method" type="hidden" value="delete">Delete Question</button>
-</form>
-<% end %>

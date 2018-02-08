@@ -23,6 +23,12 @@ require 'sinatra'
 
 require 'sinatra/cookies'
 
+require 'sinatra/flash'
+
+require 'securerandom'
+
+enable :sessions
+
 #####################################################################
 
 APP_ROOT = Pathname.new(File.expand_path('../../', __FILE__))

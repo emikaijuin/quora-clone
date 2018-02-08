@@ -1,8 +1,6 @@
-<h4><%= cookies[:username] == (nil || "") ? nil : ("Welcome, " + cookies[:username] + "!")%></h4>
+<h4><%= cookies[:username] == (nil) ? nil : ("Welcome back, " + cookies[:username] + "!")%></h4>
 
-
-
-<% if cookies[:username] != (nil || "") %>
+<% if cookies[:username] != (nil) %>
 <a href="/user/logout">Log Out</a> 
 <% else %>
 <a href="/user/signup">Sign Up</a>
@@ -14,15 +12,16 @@
 
 <% Question.all.each_with_index do |q,i| %>
   <p>Question <%= i+1 %>: <%= q.question %></p>
-  <p>Description: <%=q.description %></p>
-  <% if cookies[:username] != (nil || "") %>
-  <a href="/questions/<%= q.id %>/edit">Edit</a>
-  <% end %>
+  <p>Submitted by: <%= User.find_by(id: q.user_id).username%></p>
   <a href="/questions/<%= q.id %>">View</a>
   <br> <br>
 <% end %>
 
-<% if cookies[:username] != (nil || "") %>
+
+<hr>
+
+
+<% if cookies[:username] != (nil) %>
 <a href="/questions/new"><button>Ask a new question.</button></a>
 <% else %>
 <p><em>Sign up or log in at the top of the page to ask a question.</em></p>

@@ -6,7 +6,8 @@ end
 
 post '/questions' do
 
-  Question.create(question: params[:Question].to_s, description: params[:Description].to_s)
+  user = User.find_by(cookie_key: cookies[:cookie_key])
+  Question.create(question: params[:Question].to_s, description: params[:Description].to_s, votes:0, user_id: user.id)
 
   erb :"questions/all"
 

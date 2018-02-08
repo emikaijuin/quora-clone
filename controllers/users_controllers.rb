@@ -12,10 +12,13 @@ post '/user/signup' do
         "Sorry, that username is already taken. Please try again."
     else
         if params[:password] == params[:password_confirmation]
-            User.create(username: params[:username], password:params[:password])
+            cookie_key = SecureRandom.hex
+            User.create(username: params[:username], password: params[:password],cookie_key: cookie_key)
+            cookies[:cookie_key] = cookie_key
             cookies[:username] = params[:username]
             
-            erb :"/user/welcome"
+            flash[:success] = "Thanks for signing up, cookies[:username]!"
+            erb :"/questions/all"
         else
             "Sorry, those passwords didn't match. Redirecting you back to signup page..."
         end
@@ -25,9 +28,9 @@ end
 
 get '/user/login' do
     
-  if cookies[:username] == (nil || "")
+  if (!User.find_by(username: cookies[:username])) || (cookies[:cookie_key] != User.find_by(username: cookies[:username]).cookie_key)
       erb :"user/login"
-  else 
+  else
       "You are already logged in, #{cookies[:username]}!"
   end
   
@@ -39,7 +42,9 @@ post '/user/login' do
   
   if params[:password] == user.password
       
-     cookies[:username] = params[:username]
+     cookies[:cookie_key] = user.cookie_key
+     
+     cookies[:username] = user.username
     
      erb :"user/welcome"
     
@@ -53,7 +58,7 @@ end
 
 get '/user/logout' do
     
-    cookies[:username] = nil
+    cookies.clear
     
     erb :"user/logout"
     
