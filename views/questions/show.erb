@@ -21,14 +21,15 @@
 <% else %>
     <p><strong>Answers: </strong></p>
     <% Answer.where(question_id: @question.id).each_with_index do |answer, index| %>
-        <p>Answer #<%= index %> : <%= answer.answer %> </p>
+        <p>#<%= index %> : <%= answer.answer %> </p>
+        <a href="/questions/<%=@question.id%>/answer/<%=answer.id%>">Vote for this answer</a>
     <% end %>
 <% end %>
     
 
 
 
-<% if User.find_by(username: cookies[:username]).id == @question.user_id %>
+<% if cookies[:username] != nil && User.find_by(username: cookies[:username]).id == @question.user_id %>
     <a href="/questions/<%= @question.id %>/edit"><button>Edit Question</button></a>
     <form action="/questions/<%= @question.id %>" method="POST">
     <button name="_method" type="hidden" value="delete">Delete Question</button>
