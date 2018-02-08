@@ -1,13 +1,13 @@
 get '/' do
 
- erb :"home"
+ redirect "/questions/all"
 
 end
 
 post '/questions' do
 
   user = User.find_by(cookie_key: cookies[:cookie_key])
-  Question.create(question: params[:Question].to_s, description: params[:Description].to_s, votes:0, user_id: user.id)
+  Question.create(question: params[:Question].to_s, description: params[:Description].to_s, votes:1, user_id: user.id)
 
   erb :"questions/all"
 
@@ -45,14 +45,6 @@ post '/questions/:id' do
 
 end
 
-get '/questions/:id/edit' do
-
-  @question = Question.find(params[:id])
-
-  erb :"questions/edit"
-
-end
-
 delete '/questions/:id' do
 
   @question = Question.find(params[:id])
@@ -61,4 +53,20 @@ delete '/questions/:id' do
 
   erb :"questions/delete"
 
+end
+
+get '/questions/:id/edit' do
+
+  @question = Question.find(params[:id])
+
+  erb :"questions/edit"
+
+end
+
+get '/questions/:id/vote' do
+  @question = Question.find(params[:id])
+  @question.votes += 1
+  @question.save
+  
+  redirect "/questions/all"
 end

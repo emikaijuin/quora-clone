@@ -29,7 +29,7 @@ end
 get '/user/login' do
     
   if (!User.find_by(username: cookies[:username])) || (cookies[:cookie_key] != User.find_by(username: cookies[:username]).cookie_key)
-      erb :"user/login"
+      erb :"/user/login"
   else
       "You are already logged in, #{cookies[:username]}!"
   end
@@ -40,17 +40,19 @@ post '/user/login' do
 
   user = User.find_by(username: params[:username])
   
-  if params[:password] == user.password
+  if user != nil && params[:password] == user.password
       
      cookies[:cookie_key] = user.cookie_key
      
      cookies[:username] = user.username
     
-     erb :"user/welcome"
+    flash.now[:message] = "You've sucessfully logged in. "
+    erb :"questions/all"
     
   else
       
-     "Sorry, that username and/or password doesn't exist in our database. Please try again."
+     flash.now[:message] = "Sorry, that username and/or password doesn't exist in our database. Please try again."
+     erb :"/user/login"
      
   end
 
@@ -59,8 +61,8 @@ end
 get '/user/logout' do
     
     cookies.clear
-    
-    erb :"user/logout"
+    flash.now[:message] = "You've been logged out. Come back soon!"
+    erb :"questions/all"
     
 end
     

@@ -15,6 +15,8 @@ require 'bundler/setup' if File.exist?(ENV['BUNDLE_GEMFILE'])
 
 require 'pathname'
 
+require 'byebug'
+
 require 'pg'
 
 require 'active_record'

@@ -14,6 +14,13 @@
     <p><em>Description: <%=@question.description%></em></p> 
 <% end %>
 <p>Submitted by: <%=User.find_by(id: @question.user_id).username%></p>
+<br>
+<% if cookies[:username] != nil && User.find_by(username: cookies[:username]).id == @question.user_id %>
+    <a href="/questions/<%= @question.id %>/edit"><button>Edit Question</button></a>
+    <form action="/questions/<%= @question.id %>" method="POST">
+    <button name="_method" type="hidden" value="delete">Delete Question</button>
+    </form>
+<% end %>
 
 <br><br>
 <% if Answer.find_by(question_id: @question.id) == nil %>
@@ -26,17 +33,8 @@
         <a href="/questions/<%=@question.id%>/answer/<%=answer.id%>">Vote for this answer</a>
     <% end %>
 <% end %>
-    
-
-
-
-<% if cookies[:username] != nil && User.find_by(username: cookies[:username]).id == @question.user_id %>
-    <a href="/questions/<%= @question.id %>/edit"><button>Edit Question</button></a>
-    <form action="/questions/<%= @question.id %>" method="POST">
-    <button name="_method" type="hidden" value="delete">Delete Question</button>
-    </form>
-<% end %>
 <br><br>
+    
 <a href="/questions/<%=@question.id%>/answer/new"><button>Add a response!</button></a>
 <hr>
 
