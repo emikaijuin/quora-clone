@@ -40,18 +40,27 @@ post '/user/login' do
 
   user = User.find_by(username: params[:username])
   
-  if user != nil && params[:password] == user.password
+  if user != nil 
       
-     cookies[:cookie_key] = user.cookie_key
+      if user.authenticate(params[:password])
+      
+        cookies[:cookie_key] = user.cookie_key
      
-     cookies[:username] = user.username
+        cookies[:username] = user.username
     
-    flash.now[:message] = "You've sucessfully logged in. "
-    erb :"questions/all"
+        flash.now[:message] = "You've sucessfully logged in. "
+        
+        erb :"questions/all"
     
-  else
+     else
       
-     flash.now[:message] = "Sorry, that username and/or password doesn't exist in our database. Please try again."
+         flash.now[:message] = "Sorry, that password is incorrect."
+         erb :"/user/login"
+     end
+     
+    else
+     
+     flash.now[:message] = "Sorry, we don't have a user with that username. Try again."
      erb :"/user/login"
      
   end

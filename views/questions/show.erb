@@ -1,10 +1,10 @@
 <h4><%= cookies[:username] == (nil) ? nil : ("Welcome back, " + cookies[:username] + "!")%></h4>
 
 <% if cookies[:username] != (nil) %>
-<a href="/user/logout">Log Out</a> 
+    <a href="/user/logout">Log Out</a> 
 <% else %>
-<a href="/user/signup">Sign Up</a>
-<a href="/user/login">Log In</a>
+    <a href="/user/signup">Sign Up</a>
+<   a href="/user/login">Log In</a>
 <% end %>
 <hr>
 <br><br>
