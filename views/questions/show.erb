@@ -10,16 +10,21 @@
 <br><br>
 
 <p><strong>Question: <%=@question.question%></strong></p>
-<% if @question.description != "" || nil %> <p><em>Description: <%=@question.description%></em></p> <% end %>
+<% if @question.description != "" || nil %> 
+    <p><em>Description: <%=@question.description%></em></p> 
+<% end %>
 <p>Submitted by: <%=User.find_by(id: @question.user_id).username%></p>
-<br><br>
 
-<p><strong>Answers: </strong></p>
-<% if Answer.find_by(question_id: @question.id != nil %>
-    <% Answer.find_by(question_id: @question_id).each_with_index do |answer, index| %>
-        Answer <%=index%>: <%= answer.answer %> (Votes: <%=answer.votes%>)
+<br><br>
+<% if Answer.find_by(question_id: @question.id) == nil %>
+    <p>No answers submitted yet :( Be the first to submit!</p>
+<% else %>
+    <p><strong>Answers: </strong></p>
+    <% Answer.where(question_id: @question.id).each_with_index do |answer, index| %>
+        <p>Answer #<%= index %> : <%= answer.answer %> </p>
     <% end %>
 <% end %>
+    
 
 
 
