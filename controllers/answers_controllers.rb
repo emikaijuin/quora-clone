@@ -14,6 +14,8 @@ end
 
 get "/questions/:id/answer/:answer_id" do
     @answer = Answer.find(params[:answer_id])
-    @answer.vote += 1
+    @answer.votes += 1
     @answer.save
+    
+    redirect "/questions/#{params[:id]}"
 end

@@ -20,8 +20,9 @@
     <p>No answers submitted yet :( Be the first to submit!</p>
 <% else %>
     <p><strong>Answers: </strong></p>
-    <% Answer.where(question_id: @question.id).each_with_index do |answer, index| %>
-        <p>#<%= index %> : <%= answer.answer %> </p>
+    <% Answer.where(question_id: @question.id).order(votes: :desc).each_with_index do |answer, index| %>
+        <p>#<%= index + 1 %> : <%= answer.answer %> (Current votes: <%=answer.votes%>)</p>
+        
         <a href="/questions/<%=@question.id%>/answer/<%=answer.id%>">Vote for this answer</a>
     <% end %>
 <% end %>
