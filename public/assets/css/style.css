@@ -1,3 +1,8 @@
+body {
+ padding: 0;
+ margin: 0;
+}
+
 #override-bootstrap {
  background-color: #fafafa;
  font-family: "Libre Baskerville", serif;
@@ -7,6 +12,10 @@
  background-color: white;
  padding: 1em;
  margin: 1em 0;
+ position: relative;
+}
+.question-author{
+ font-size: 0.75em;
 }
 #main-container{
   padding: 2em 0;
@@ -37,4 +46,59 @@ nav {
 
 ::placeholder {
  font-weight: 700;
+}
+
+.question-title {
+ display: inline;
+}
+.question-votes {
+ font-family: "Libre Franklin";
+ font-size: 0.8em;
+ vertical-align: middle;
+}
+
+.answer-preview {
+ font-family: "Libre Franklin";
+ font-size: 0.9em;
+}
+
+.view-more {
+ font-size: 0.9em;
+ position: absolute;
+ right: 0;
+ bottom: 0;
+ transform: translate(-20%,-100%);
+}
+
+#login-container {
+ width: 30%;
+ margin-top: 10%;
+ border: 1px solid gainsboro;
+ border-radius: 7px;
+ padding: 15px;
+ background-color: white;
+}
+
+#show-page-container {
+ width: 100%;
+ background-color: white;
+ border: 1px solid gainsboro;
+ margin: 2em;
+ padding: 2em;
+ position: relative;
+}
+
+add-response-button {
+ margin: 2em;
+}
+
+.add-response{
+ position: absolute;
+ top: 0;
+ right: 0;
+ transform: translate(0,-25%)
+}
+
+.edit-icon{
+ /*vertical-align: -.29em;*/
 }

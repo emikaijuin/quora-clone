@@ -4,6 +4,7 @@ class Question < ActiveRecord::Base
     has_many :users, through: :question_users
     
     def has_voted_question?(user)
+        user == nil ? (return false) : nil
         user = User.find_by(username: user)
         self.users.include?(user) ? true : false
     end

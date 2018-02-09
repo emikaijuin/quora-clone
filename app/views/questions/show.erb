@@ -1,47 +1,61 @@
 <%= erb :header %>
-
-
-<h4><%= cookies[:username] == (nil) ? nil : ("Welcome back, " + cookies[:username] + "!")%></h4>
-
-<% if cookies[:username] != (nil) %>
-    <a href="/user/logout">Log Out</a> 
-<% else %>
-    <a href="/user/signup">Sign Up</a>
-<   a href="/user/login">Log In</a>
-<% end %>
-<hr>
-<br><br>
-
-<p><strong>Question: <%=@question.question%></strong></p>
-<% if @question.description != "" || nil %> 
-    <p><em>Description: <%=@question.description%></em></p> 
-<% end %>
-<p>Submitted by: <%=User.find_by(id: @question.user_id).username%></p>
-<br>
-<% if cookies[:username] != nil && User.find_by(username: cookies[:username]).id == @question.user_id %>
-    <a href="/questions/<%= @question.id %>/edit"><button>Edit Question</button></a>
-    <form action="/questions/<%= @question.id %>" method="POST">
-    <button name="_method" type="hidden" value="delete">Delete Question</button>
-    </form>
-<% end %>
-
-<br><br>
-<% if Answer.find_by(question_id: @question.id) == nil %>
-    <p>No answers submitted yet :( Be the first to submit!</p>
-<% else %>
-    <p><strong>Answers: </strong></p>
-    <% Answer.where(question_id: @question.id).order(votes: :desc).each_with_index do |answer, index| %>
-        <p>#<%= index + 1 %> : <%= answer.answer %> (Current votes: <%=answer.votes%>)</p>
-        <%= cookies[:message] %>
-        <a href="/questions/<%=@question.id%>/answer/<%=answer.id%>">Vote for this answer</a>
-        <% cookies.delete(:message) %>
-    <% end %>
-<% end %>
-
-<br><br>
+<div class="container" id="show-page-container">
+    <div class="row">
+        <div class="col">
+            <div class="add-response">
+                <a href="/questions/<%=@question.id%>/answer/new">
+                    <button class="btn btn-info btn-sm" id="add-response-button">
+                        Add a response!
+                    </button>
+                </a>
+            </div>
+            <span class="question-title"><strong>Question: <%=@question.question%></strong>
+                <p class="question-author">Submitted by: <%=User.find_by(id: @question.user_id).username%></p>
+            </span>
+                <% if @question.description != "" || nil %> 
+                    <p><em><%=@question.description%></em></p> 
+                <% end %>
+            <div>
+                <% if cookies[:username] != nil && User.find_by(username: cookies[:username]).id == @question.user_id %>
+                    <a href="/questions/<%= @question.id %>/edit"><button>Edit Question</button></a>
+                    <form action="/questions/<%= @question.id %>" method="POST">
+                    <button name="_method" type="hidden" value="delete">Delete Question</button>
+                    </form>
+                <% end %>
+            </div>
+            <hr>
+        </div>
+    </div>
+  
     
-<a href="/questions/<%=@question.id%>/answer/new"><button>Add a response!</button></a>
-<hr>
+    <div class="row">
+        <div class="col">
+            <div>
+                <% if Answer.find_by(question_id: @question.id) == nil %>
+                    <p>No answers submitted yet :( Be the first to submit!</p>
+                <% else %>
+                    <p><strong>Answers: </strong></p>
+                    <% Answer.where(question_id: @question.id).order(votes: :desc).each_with_index do |answer, index| %>
+                        <div class="container">
+                            <p><%= answer.answer %> + <%=answer.votes%>
+                                <a href="/questions/<%=@question.id%>/answer/<%=answer.id%>" style="color:#b92b27">
+                                    <% if answer.has_voted?(cookies[:username])%>
+                                        <i class="fas fa-heart" class="heart-icon"></i>
+                                    <% else %>
+                                        <i class="far fa-heart" class="heart-icon"></i>
+                                    <% end %>
+                                </a>
+                            </p>
+                            <%= cookies[:message] %>
+
+                            <% cookies.delete(:message) %>
+                        </div>
+                    <% end %>
+                <% end %>   
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <a href="/questions/all">View all questions</a>

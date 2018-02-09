@@ -5,41 +5,42 @@
     
     <div class="col">
       <div class="main-page-container">
-          <ul>
-            <li>THIS IS A TEST</li>
-            <li>THIS IS A TEST</li>
-            <li>THIS IS A TEST</li>
-            <li>THIS IS A TEST</li>
-            <li>THIS IS A TEST</li>
-            <li>THIS IS A TEST</li>
-          </ul>
         </div>
     </div>
  
     <div class="col-md-8 col-sm-12 main-page-container">
       <div class="question-box" id="question-form-container">
         <span><i class="far fa-user" id="submission-user-icon"></i><%= p cookies[:username]? "   #{cookies[:username]}" : "  Guest" %></span>
-        <form>
-          <input  id="question-form" type="text" placeholder="What is your question?">
+        <form action="/questions" method="POST">
+          <input id="question-form" type="text" placeholder="What is your question?" name="Question">
         </form>
       </div>
       
       
       <% Question.all.order(votes: :desc).each do |question| %>
         <div class="question-box">
-          <h5 class="question-title"><strong><%= question.question %></strong></h5>
+          <h5 class="question-title"><strong><%= question.question %></strong></h5> 
+          <span class="question-votes">+<%= question.votes%> </span>
           <p class="question-author">Submitted by: <%= User.find_by(id: question.user_id).username%></p>
-          <p class="question-votes">Voted for <%= question.votes  %> times.</p>
+          
+          <p class="answer-preview">
+            <% answers = Answer.where(question_id: question.id) %>
+            <% if answers[0] == nil %>
+              No answers yet- be the first to answer this question.
+            <% else %>
+              <%= answers[0].answer[0,140] %>
+              <%= answers[0].answer.length > 140 ? '...' : nil %>
+            <% end %>
+          </p>
+          <div>
           <a href="/questions/<%= question.id %>/vote">
             <% if question.has_voted_question?(cookies[:username]) %>
               <button class="btn btn-danger btn-sm">
                   <i class="fas fa-heart"></i>
-                  You liked this
               </button>
             <% else %>
               <button class="btn btn-outline-danger btn-sm">
                   <i class="far fa-heart"></i>
-                  Like this question
               </button>
             <% end %>
           </a>
@@ -48,7 +49,11 @@
               <% cookies[:message] = nil %>
               <% cookies[:question_id] = nil %>
             <% end %>
-          <a href="/questions/<%= question.id %>">View more...</a>
+          </div>
+          <div class="view-more">
+            <i class="far fa-edit fa-2x edit-icon"></i> 
+            <a href="/questions/<%= question.id %>">Submit an answer</a>
+          </div>
         </div>
       <% end %>
     </div>
@@ -60,9 +65,7 @@
 </div>
 
 
-<% if cookies[:username] != (nil) %>
-  <a href="/questions/new"><button>Ask a new question.</button></a>
-<% else %>
+<% if !is_logged_in? %>
   <p><em>Sign up or log in at the top of the page to ask a question.</em></p>
 <% end %>
 
