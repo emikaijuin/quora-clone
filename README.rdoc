@@ -1,6 +1,8 @@
 -- To run rails server, use:  rails s -b $IP -p $PORT
 https://gist.github.com/caseywatts/2f5f8bd2fdf583dc757a <-- info about running sinatra on c9
 https://community.c9.io/t/setting-up-postgresql/1573 <-- running postgresql on cloud9
+sudo service postgresql start <--- start psql
+
 
 == README
 
