@@ -27,6 +27,10 @@ require 'sinatra/cookies'
 
 require 'sinatra/flash'
 
+require 'sinatra/partial'
+
+require 'erb'
+
 require 'securerandom'
 
 enable :sessions
@@ -41,5 +45,5 @@ Dir[APP_ROOT.join('controllers', '*.rb')].each { |file| require file }
 
 #######################################################################
 
-set :views, File.join(APP_ROOT,"views")
-
+set :views, File.join(APP_ROOT,"app","views")
+set :public_folder, 'public'
