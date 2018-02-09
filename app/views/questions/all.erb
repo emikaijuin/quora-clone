@@ -1,0 +1,25 @@
+<%= erb :header %>
+
+<div class="container">
+<% Question.all.order(votes: :desc).each_with_index do |q,i| %>
+  <div class="question-box">
+    <p>Question <%= i+1 %>: <%= q.question %></p>
+    <p>Voted for <%= q.votes  %> times.</p>
+    <p>Submitted by: <%= User.find_by(id: q.user_id).username%></p>
+    <a href="/questions/<%= q.id %>/vote">Vote for this question</a>
+    <a href="/questions/<%= q.id %>">View</a>
+  </div>
+<% end %>
+</div>
+
+
+<hr>
+
+
+<% if cookies[:username] != (nil) %>
+  <a href="/questions/new"><button>Ask a new question.</button></a>
+<% else %>
+  <p><em>Sign up or log in at the top of the page to ask a question.</em></p>
+<% end %>
+
+<%= erb :footer %>
