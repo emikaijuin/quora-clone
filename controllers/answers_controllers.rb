@@ -25,4 +25,4 @@ get "/questions/:id/answer/:answer_id" do
         
         redirect "/questions/#{params[:id]}", cookies =>{:message => "You voted!"}
     end
-    end
+end

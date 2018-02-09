@@ -5,12 +5,14 @@
     <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700" rel="stylesheet">
+
 </head>
-<body>
+<body id="override-bootstrap">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
     
-      <a class="navbar-brand" href="#"><strong>Fake Quora</strong></a>
+      <a class="navbar-brand" href="#" id="logo"><strong>Fake Quora</strong></a>
       
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
        
@@ -76,7 +78,7 @@
                     
                     <a class="nav-link" href="/user/signup">
                     
-                        <button class="btn btn-sm btn-info">
+                        <button class="btn btn-sm btn-info" id="sign-up-button">
                     
                             Sign Up <i class="fas fa-user-plus"></i>
                     

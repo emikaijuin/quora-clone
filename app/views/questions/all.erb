@@ -1,19 +1,63 @@
 <%= erb :header %>
 
-<div class="container">
-<% Question.all.order(votes: :desc).each_with_index do |q,i| %>
-  <div class="question-box">
-    <p>Question <%= i+1 %>: <%= q.question %></p>
-    <p>Voted for <%= q.votes  %> times.</p>
-    <p>Submitted by: <%= User.find_by(id: q.user_id).username%></p>
-    <a href="/questions/<%= q.id %>/vote">Vote for this question</a>
-    <a href="/questions/<%= q.id %>">View</a>
+<div class="container col-lg-12" id= "main-container">
+  <div class="row">
+    
+    <div class="col">
+      <div class="main-page-container">
+          <ul>
+            <li>THIS IS A TEST</li>
+            <li>THIS IS A TEST</li>
+            <li>THIS IS A TEST</li>
+            <li>THIS IS A TEST</li>
+            <li>THIS IS A TEST</li>
+            <li>THIS IS A TEST</li>
+          </ul>
+        </div>
+    </div>
+ 
+    <div class="col-md-8 col-sm-12 main-page-container">
+      <div class="question-box" id="question-form-container">
+        <span><i class="far fa-user" id="submission-user-icon"></i><%= p cookies[:username]? "   #{cookies[:username]}" : "  Guest" %></span>
+        <form>
+          <input  id="question-form" type="text" placeholder="What is your question?">
+        </form>
+      </div>
+      
+      
+      <% Question.all.order(votes: :desc).each do |question| %>
+        <div class="question-box">
+          <h5 class="question-title"><strong><%= question.question %></strong></h5>
+          <p class="question-author">Submitted by: <%= User.find_by(id: question.user_id).username%></p>
+          <p class="question-votes">Voted for <%= question.votes  %> times.</p>
+          <a href="/questions/<%= question.id %>/vote">
+            <% if question.has_voted_question?(cookies[:username]) %>
+              <button class="btn btn-danger btn-sm">
+                  <i class="fas fa-heart"></i>
+                  You liked this
+              </button>
+            <% else %>
+              <button class="btn btn-outline-danger btn-sm">
+                  <i class="far fa-heart"></i>
+                  Like this question
+              </button>
+            <% end %>
+          </a>
+            <% if cookies[:question_id] == question.id %>
+              <%= cookies[:message] %>
+              <% cookies[:message] = nil %>
+              <% cookies[:question_id] = nil %>
+            <% end %>
+          <a href="/questions/<%= question.id %>">View more...</a>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="col"> </div>
+    
   </div>
-<% end %>
+  
 </div>
-
-
-<hr>
 
 
 <% if cookies[:username] != (nil) %>

@@ -42,6 +42,7 @@ APP_ROOT = Pathname.new(File.expand_path('../../', __FILE__))
 require APP_ROOT.join('config','database.rb')
 
 Dir[APP_ROOT.join('controllers', '*.rb')].each { |file| require file }
+Dir[APP_ROOT.join('helpers', '*.rb')].each { |file| require file }
 
 #######################################################################
 

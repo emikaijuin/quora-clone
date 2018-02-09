@@ -63,10 +63,25 @@ get '/questions/:id/edit' do
 
 end
 
-get '/questions/:id/vote' do
-  @question = Question.find(params[:id])
-  @question.votes += 1
-  @question.save
+get "/questions/:id/vote" do
   
-  redirect "/questions/all"
+    @user = User.find_by(username: cookies[:username])
+    @question = Question.find(params[:id])
+    cookies[:question_id] = params[:id]
+
+    if is_logged_in?
+      if @question.users.include?(@user)
+          cookies[:message] = "You already voted!"
+          redirect "/"
+      else
+          @question.votes += 1
+          @question.users << @user
+          @question.save
+          redirect "/"
+      end
+    else 
+      cookies[:message] = "You must be logged in to vote!"
+      redirect "/"
+    end
+    
 end
