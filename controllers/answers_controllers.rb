@@ -13,9 +13,16 @@ post "/questions/:id/answer" do
 end
 
 get "/questions/:id/answer/:answer_id" do
+    @user = User.find_by(username: cookies[:username])
     @answer = Answer.find(params[:answer_id])
-    @answer.votes += 1
-    @answer.save
     
-    redirect "/questions/#{params[:id]}"
-end
+    if @answer.users.include?(@user)
+        redirect "/questions/#{params[:id]}", cookies => {:message => "Sorry, you have already voted for this! You can only vote once."}
+    else
+        @answer.votes += 1
+        @answer.users << @user
+        @answer.save
+        
+        redirect "/questions/#{params[:id]}", cookies =>{:message => "You voted!"}
+    end
+    end
