@@ -10,6 +10,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'byebug'
 gem 'heroku'
 gem 'rack-flash3'
+gem 'jquery-rails'
+gem 'jquery-cdn'
 
 group :development do
     gem "shotgun"
